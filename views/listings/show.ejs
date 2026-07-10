@@ -1,0 +1,141 @@
+<% layout("/layouts/boilerplate") %>
+<script>
+  const mapToken = "<%= process.env.MAP_TOKEN %>";
+  const listing = <%- JSON.stringify(lis) %>;
+</script>
+
+<h3 class="show-h3">Discover your stay</h3>
+
+<div class="card show-card">
+  <img src="<%= lis.image.url %>" class="card-img-top show-img" alt="listing_img" />
+  <div class="card-body show-card-body">
+    <p class="card-text show-card-text">
+      <%= lis.title %>
+    </p>
+  </div>
+</div>
+<ul class="show-ul">
+  <li>
+    <%= lis.title %>
+  </li>
+  <li>
+    <i>
+      <div class="host-info">
+        Your Host :
+        <img src="<%= lis.owner.image.url %>" class="host-avatar">
+
+        <a href="/users/<%= lis.owner._id %>" class="user-link">
+          @<u><%= lis.owner.username %></u>
+        </a>
+
+      </div>
+    </i>
+  </li>
+  <li>
+    <%= lis.description %>
+  </li>
+  <li>&#x20B9;<%= lis.price.toLocaleString("en-IN") %>
+  </li>
+  <li>
+    <%= lis.location %>
+  </li>
+  <li>
+    <%= lis.country %>
+  </li>
+</ul>
+<div class="show-actions">
+  <% if (currUser && currUser._id.equals(lis.owner._id)) { %>
+  <a href="/listings/<%= lis._id %>/edit" class="show-edit">Edit this listing</a>
+  <% } %>
+  <a href="/listings" class="show-home">Home</a>
+
+  <% if (currUser && currUser._id.equals(lis.owner._id)) { %>
+  <form method="POST" class="delete-form" action="/listings/<%= lis._id %>?_method=DELETE">
+    <button class="btn dlt-btn">Delete this listing</button>
+  </form>
+  <% } %>
+</div>
+
+<div class="col-8 offset-2 mb-3 mt-3 review">
+  <hr />
+  <% if (currUser) { %>
+  <h4>Leave a review</h4>
+  <form action="/listings/<%= lis._id %>/reviews" method="POST" novalidate class="needs-validation">
+
+
+    <div class="mb-3 mt-3">
+      <label for="rating" class="form-label">Rating</label>
+      <fieldset class="starability-coinFlip">
+        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+        <label for="first-rate1" title="Terrible">1 star</label>
+        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+        <label for="first-rate2" title="Not good">2 stars</label>
+        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+        <label for="first-rate3" title="Average">3 stars</label>
+        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+        <label for="first-rate4" title="Very good">4 stars</label>
+        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+        <label for="first-rate5" title="Amazing">5 stars</label>
+      </fieldset>
+    </div>
+
+    <div class="mb-3 mt-3">
+      <label for="comment" class="form-label">Comments</label>
+      <textarea name="review[comment]" id="comment" cols="30" rows="10" class="form-control" required></textarea>
+      <div class="invalid-feedback">Add a comment</div>
+    </div>
+    <br>
+    <button class="btn btn-outline-dark">Submit</button>
+  </form>
+  <hr>
+  <% } %>
+  <% if (!currUser) { %>
+  <i>Login or Signup to leave a review</i><hr>
+  <% } %>
+
+  <p><b>Reviews</b></p>
+  <div class="row">
+    <% for(review of lis.reviews) { %>
+    <div class="card review-card col-5 ms-3 mb-3">
+      <div class="review-card-body">
+        <h5 class="review-card-title">
+          <div class="review-user">
+
+            <img src="<%= review.author.image.url %>" class="review-avatar">
+
+            <a href="/users/<%= review.author._id %>" class="user-link">
+              @<%= review.author.username %>
+            </a>
+
+          </div>
+        </h5>
+
+        <p class="starability-result card-text" data-rating="<%= review.rating %>">
+        </p>
+
+        <p class="review-card-text review-text" data-fulltext="<%= review.comment %>">
+          <%= review.comment %>
+        </p>
+
+        <button class="show-more-btn">Show more</button>
+      </div>
+      <% if (currUser && currUser._id.equals(review.author._id)) { %>
+      <form class="dlt-btn-form mb-3" method="POST" action="/listings/<%= lis._id %>/reviews/<%= review._id %>?_method=DELETE">
+        <button class="btn btn-sm btn-dark">Delete</button>
+      </form>
+      <% } %>
+    </div>
+    <% } %>
+  </div>
+  <% if (lis.reviews.length===0) { %>
+  <p><b>No reviews yet!</b></p>
+  <% } %>
+</div>
+<hr>
+
+<div class="col-8 offset-2 mb-2">
+  <h3>Where you'll be</h3>
+  <div id="map"></div>
+</div>
+<script src="/js/map.js"></script>

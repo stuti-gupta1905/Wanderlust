@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-md navbar-dark border-bottom sticky-top">
+  <div class="container-fluid">
+
+    <!-- Logo -->
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-solid fa-compass"></i>
+    </a>
+
+    <!-- Right Controls -->
+    <div class="nav-controls">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+          <i class="fa-solid fa-user"></i>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-end">
+          <% if(!currUser) { %>
+          <li><a class="dropdown-item" href="/signup">Signup</a></li>
+          <li><a class="dropdown-item" href="/login">Login</a></li>
+          <% } %>
+          <% if(currUser) { %>
+          <li><a class="dropdown-item" href="/users/<%= currUser._id %>"><%= currUser.username %></a></li>
+          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Navbar Links -->
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav mx-auto">
+        <a class="nav-link" href="/listings">Explore</a>
+        <a class="nav-link" href="/listings/new">Add Your Home</a>
+      </div>
+    </div>
+
+  </div>
+</nav>

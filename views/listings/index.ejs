@@ -1,0 +1,54 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- <h3>All Listings</h3><hr> -->
+<!-- <form method="GET" action="/listings/new">
+        <button>Create New Listing</button>
+    </form> -->
+<div class="other-options">
+  <form class="d-flex search-form" role="search" action="/listings/search" method="GET">
+    <input
+        class="form-control me-2"
+        type="search"
+        name="q"
+        placeholder="Search destinations"
+        aria-label="Search"
+        required
+    />
+    <button class="btn btn-search" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+</form>
+<div class="tax-switch">
+  <div class="form-check-reverse form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+    <label class="form-check-label" for="switchCheckDefault">Display taxes</label>
+  </div>
+</div>
+</div>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 mt-3">
+  <% for(let lis of allListings) { %>
+  <a class="card-link" href="/listings/<%= lis._id %>">
+    <div class="card col">
+      <img src="<%=lis.image.url %>" class="card-img-top" alt="listing_image" style="height:20rem">
+      <div class="card-body">
+        <p class="card-title"><%= lis.title %></p>
+        <p class="card-text">&#x20B9;<%= lis.price.toLocaleString("en-IN") %>/night<i class="tax-info"> + 18% GST</i></p>
+      </div>
+    </div>
+  </a>
+  <% } %>
+</div>
+
+<script>
+  let taxSwitch = document.getElementById("switchCheckDefault");
+  taxSwitch.addEventListener("click", () => {
+    let taxInfo = document.getElementsByClassName("tax-info");
+    for (info of taxInfo) {
+      if (info.style.display != "inline") {
+        info.style.display = "inline";
+      } else {
+        info.style.display = "none";
+      }
+    }
+  });
+</script>

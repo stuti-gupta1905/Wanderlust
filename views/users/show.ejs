@@ -1,0 +1,83 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-4">
+
+    <div class="user-profile">
+        <img src="<%= user.image.url %>" class="user-profile-img">
+
+        <h2>@<%= user.username %></h2>
+
+        <p><%= user.email %></p>
+
+        <% if(user.bio){ %>
+            <p><%= user.bio %></p>
+        <% } %>
+
+        <% if(user.location){ %>
+            <p>📍 <%= user.location %></p>
+        <% } %>
+
+        <p>
+            Member since
+            <%= user.joinedAt.toLocaleDateString("en-IN", {
+                month: "long",
+                year: "numeric"
+            }) %>
+        </p>
+
+        <p><strong><%= listings.length %></strong> Listings</p>
+
+         <% if(currUser && currUser._id.equals(user._id)){ %>
+
+<a
+    href="/users/edit"
+    class="btn btn-dark mt-3 btn-user-edit"
+>
+    Edit Profile
+</a>
+<a
+    href="/listings"
+    class="btn mt-3 btn-user-home"
+>
+    Home
+</a>
+
+<% } %>
+    </div>
+
+   
+
+    <hr>
+
+    <h3>Listings by <%= user.username %></h3>
+
+    <div class="row">
+        <% for(let listing of listings){ %>
+
+            <div class="card listing-card col-lg-4 col-md-6 mb-4">
+
+                <a href="/listings/<%= listing._id %>" class="listing-link">
+
+                    <img
+                        src="<%= listing.image.url %>"
+                        class="card-img-top profile-listing-img"
+                    >
+
+                    <div class="card-body">
+
+                        <h5><%= listing.title %></h5>
+
+                        <p>
+                            ₹<%= listing.price.toLocaleString("en-IN") %>
+                        </p>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        <% } %>
+    </div>
+
+</div>

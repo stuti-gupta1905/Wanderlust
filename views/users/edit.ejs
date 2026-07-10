@@ -1,0 +1,97 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-4">
+  <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12">
+
+    <h3>Edit Profile</h3>
+
+    <form
+      action="/users/edit?_method=PUT"
+      method="POST"
+      enctype="multipart/form-data"
+      class="needs-validation"
+      novalidate
+    >
+
+      <!-- Current Profile Picture -->
+      <div class="mb-3">
+        <label class="form-label">Current Profile Picture</label><br>
+
+        <img
+          src="<%= currUser.image.url %>"
+          class="edit-profile-img"
+        >
+      </div>
+
+      <!-- Upload New Picture -->
+      <div class="mb-3">
+        <label class="form-label">Upload New Profile Picture</label>
+
+        <input
+          type="file"
+          name="user[image]"
+          class="form-control"
+        >
+      </div>
+
+      <!-- Bio -->
+      <div class="mb-3">
+        <label class="form-label">Bio</label>
+
+        <textarea
+          name="user[bio]"
+          rows="4"
+          class="form-control"
+        ><%= currUser.bio %></textarea>
+      </div>
+
+      <!-- Location -->
+      <div class="mb-3">
+        <label class="form-label">Location</label>
+
+        <input
+          type="text"
+          name="user[location]"
+          value="<%= currUser.location %>"
+          class="form-control"
+        >
+      </div>
+
+      <button class="btn edit-btn">
+        Save Changes
+      </button>
+
+      <hr class="my-5">
+
+    </form>
+
+    <!-- Danger Zone -->
+    <div class="card border-danger mt-5">
+      <div class="card-body text-center">
+        <h4 class="text-danger">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          Danger Zone
+        </h4>
+
+        <p class="text-muted mt-3 mb-4">
+          Deleting your account is permanent. All your profile information,
+          listings, reviews, and uploaded images will be removed permanently.
+          This action cannot be undone.
+        </p>
+
+        <form
+          action="/users/delete?_method=DELETE"
+          method="POST"
+          class="delete-form"
+          onsubmit="return confirm('Are you sure you want to permanently delete your account? This action cannot be undone.');"
+        >
+          <button type="submit" class="btn btn-danger">
+            <i class="fa-solid fa-trash"></i>
+            Delete Account
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
