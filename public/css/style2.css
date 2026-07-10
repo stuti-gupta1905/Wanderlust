@@ -365,3 +365,30 @@
         height:250px;
     }
 }
+
+.booking-card{
+    max-width:550px;
+    margin:40px auto;
+    padding:25px;
+
+    border-radius:18px;
+    box-shadow:0 4px 15px rgba(0,0,0,.15);
+    background:white;
+}
+
+.booking-inputs{
+    display:flex;
+    gap:20px;
+}
+
+.booking-inputs>div{
+    flex:1;
+}
+
+.booking-card h3{
+    margin-bottom:20px;
+}
+
+.booking-card button{
+    border-radius:12px;
+}
