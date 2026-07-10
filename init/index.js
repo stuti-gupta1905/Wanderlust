@@ -12,9 +12,14 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+// async function main() {
+//   await mongoose.connect(MONGO_URL);
+// }
+const dbUrl = process.env.ATLASDB_URL;
+console.log(process.env.ATLASDB_URL);
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(dbUrl);
 }
 
 main()
@@ -52,7 +57,7 @@ const initDB = async () => {
 
       return {
         ...obj,
-        owner: "6a4ba67efa4eb431f0c0d190",
+        owner: "6a509ccb2a9991769e187e9c",
         geometry: response.body.features[0].geometry,
       };
     })

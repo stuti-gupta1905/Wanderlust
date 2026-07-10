@@ -46,49 +46,52 @@
 
 
 <hr>
-
 <div class="booking-card">
   <h3>Book this Stay</h3>
 
   <% if(currUser){ %>
-  <form action="/listings/<%= lis._id %>/book" method="POST">
+  <form action="/bookings/<%= lis._id %>" method="POST">
 
-  <div class="booking-inputs">
+    <div class="booking-inputs">
 
-    <div>
-      <label>Check In</label>
-      <input type="date" name="checkIn" class="form-control" required>
+      <div>
+        <label>Check In</label>
+        <input type="date" id="checkIn" name="checkIn" class="form-control" required>
+      </div>
+
+      <div>
+        <label>Check Out</label>
+        <input type="date" id="checkOut" name="checkOut" class="form-control" required>
+      </div>
+
     </div>
 
-    <div>
-      <label>Check Out</label>
-      <input type="date" name="checkOut" class="form-control" required>
+    <div class="mt-3">
+      <label>Guests</label>
+
+      <select name="guests" class="form-select">
+        <% for(let i=1;i<=10;i++){ %>
+        <option value="<%= i %>"><%= i %></option>
+        <% } %>
+      </select>
     </div>
 
-  </div>
+    <div class="mt-3">
 
-  <div class="mt-3">
-    <label>Guests</label>
+      <h5>
+        ₹<%= lis.price.toLocaleString("en-IN") %>
+        <small>/ night</small>
+      </h5>
 
-    <select name="guests" class="form-select">
-      <% for(let i=1;i<=10;i++){ %>
-      <option value="<%= i %>"><%= i %></option>
-      <% } %>
-    </select>
-  </div>
+      <p id="bookingSummary" class="mt-2 text-muted">
+        Select your dates to see the total price.
+      </p>
 
-  <div class="mt-3">
+    </div>
 
-    <h5>
-      ₹<%= lis.price.toLocaleString("en-IN") %>
-      <small>/ night</small>
-    </h5>
-
-  </div>
-
-  <button class="btn btn-dark mt-3 w-100">
-    Book Now
-  </button>
+    <button class="btn btn-dark mt-3 w-100">
+      Book Now
+    </button>
 
   </form>
 
@@ -105,9 +108,9 @@
   <% } %>
 
 </div>
-</form>
 <hr>
-<div class="show-actions"></div>
+
+<div class="show-actions">
 
 <% if (currUser && currUser._id.equals(lis.owner._id)) { %>
 <a href="/listings/<%= lis._id %>/edit" class="show-edit">Edit this listing</a>
@@ -205,3 +208,62 @@
   <div id="map"></div>
 </div>
 <script src="/js/map.js"></script>
+
+<script>
+  const pricePerNight = <%= lis.price %>;
+</script>
+
+<script>
+  const checkIn = document.getElementById("checkIn");
+  const checkOut = document.getElementById("checkOut");
+
+  const today = new Date().toISOString().split("T")[0];
+
+  checkIn.min = today;
+  checkOut.min = today;
+
+  checkIn.addEventListener("change", () => {
+    let nextDay = new Date(checkIn.value);
+    nextDay.setDate(nextDay.getDate() + 1);
+
+    let minCheckout = nextDay.toISOString().split("T")[0];
+
+    checkOut.min = minCheckout;
+    if (checkOut.value < minCheckout) {
+      checkOut.value = minCheckout;
+    }
+    updatePrice();
+  });
+  const bookingSummary = document.getElementById("bookingSummary");
+
+  function updatePrice() {
+
+    if (!checkIn.value || !checkOut.value) {
+      bookingSummary.innerHTML =
+        "Select your dates to see the total price.";
+      return;
+    }
+
+    const inDate = new Date(checkIn.value);
+    const outDate = new Date(checkOut.value);
+
+    const nights =
+      Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
+
+    if (nights <= 0) {
+      bookingSummary.innerHTML =
+        "Select valid dates.";
+      return;
+    }
+
+    const total = nights * pricePerNight;
+
+    bookingSummary.innerHTML = `
+        <strong>${nights}</strong> night${nights > 1 ? "s" : ""}<br>
+        ₹${pricePerNight.toLocaleString("en-IN")} × ${nights}
+        <br>
+        <strong>Total: ₹${total.toLocaleString("en-IN")}</strong>
+    `;
+  }
+  checkOut.addEventListener("change", updatePrice);
+</script>

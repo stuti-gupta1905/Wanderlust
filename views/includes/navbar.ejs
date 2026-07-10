@@ -20,15 +20,39 @@
         </button>
 
         <ul class="dropdown-menu dropdown-menu-end">
-          <% if(!currUser) { %>
-          <li><a class="dropdown-item" href="/signup">Signup</a></li>
-          <li><a class="dropdown-item" href="/login">Login</a></li>
-          <% } %>
-          <% if(currUser) { %>
-          <li><a class="dropdown-item" href="/users/<%= currUser._id %>"><%= currUser.username %></a></li>
-          <li><a class="dropdown-item" href="/logout">Logout</a></li>
-          <% } %>
-        </ul>
+  <% if(!currUser) { %>
+    <li><a class="dropdown-item" href="/signup">Signup</a></li>
+    <li><a class="dropdown-item" href="/login">Login</a></li>
+  <% } %>
+
+  <% if(currUser) { %>
+    <li>
+      <a class="dropdown-item" href="/users/<%= currUser._id %>">
+        <i class="fa-solid fa-user me-2"></i><%= currUser.username %>
+      </a>
+    </li>
+
+    <li>
+      <a class="dropdown-item" href="/bookings">
+        <i class="fa-solid fa-calendar-check me-2"></i>My Bookings
+      </a>
+    </li>
+
+    <li>
+      <a class="dropdown-item" href="/bookings/host">
+        <i class="fa-solid fa-house-user me-2"></i>Guest Bookings
+      </a>
+    </li>
+
+    <li><hr class="dropdown-divider"></li>
+
+    <li>
+      <a class="dropdown-item" href="/logout">
+        <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+      </a>
+    </li>
+  <% } %>
+</ul>
       </div>
     </div>
 

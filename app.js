@@ -72,8 +72,6 @@ app.get("/", (req, res) => {
   res.redirect("/listings");
 });
 
-app.use("/listings/:id/book", bookingRouter);
-
 app.use(session(sessionOptions));
 app.use(flash());
 
@@ -111,8 +109,13 @@ app.get("/terms", (req, res) => {
   res.render("includes/terms.ejs");
 });
 
+// Booking route
+app.use("/bookings", bookingRouter);
+
 app.use("/", userRouter);
 app.use("/users", userRouter);
+
+
 // Error Handling
 app.all("/*splat", (req, res, next) => {
   next(new ExpressError(404, "Page not found"));
