@@ -109,6 +109,10 @@ app.get("/terms", (req, res) => {
   res.render("includes/terms.ejs");
 });
 
+app.get("/brand", (req, res) => {
+  res.render("includes/brand.ejs");
+});
+
 // Booking route
 app.use("/bookings", bookingRouter);
 

@@ -155,7 +155,7 @@ body {
     align-items: center;
     gap: 1.5rem;
 }
-.f-info-links a {
+.f-info-links a{
     text-decoration: none;
     color: #d1d5db;
     position: relative;
@@ -179,6 +179,33 @@ body {
 }
 
 .f-info-links a:hover::after {
+    width: 100%;
+}
+
+.f-info-brand a{
+    text-decoration: none;
+    color: #d1d5db;
+    position: relative;
+    transition: .3s;
+}
+
+.f-info-brand a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background: #ca0815;
+    transform: translateX(-50%);
+    transition: .3s;
+}
+
+.f-info-brand a:hover {
+    color: white;
+}
+
+.f-info-brand a:hover::after {
     width: 100%;
 }
 
