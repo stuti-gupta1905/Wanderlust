@@ -11,7 +11,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
-const {MongoStore} = require("connect-mongo");
+const { MongoStore } = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -24,7 +24,6 @@ const bookingRouter = require("./routes/bookings");
 
 // const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 const dbUrl = process.env.ATLASDB_URL;
-console.log(process.env.ATLASDB_URL);
 async function main() {
   await mongoose.connect(dbUrl);
 }
@@ -42,7 +41,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
-
 
 const store = MongoStore.create({
   mongoUrl: dbUrl,
@@ -65,6 +63,8 @@ const sessionOptions = {
     expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
   },
 };
 
@@ -118,7 +118,6 @@ app.use("/bookings", bookingRouter);
 
 app.use("/", userRouter);
 app.use("/users", userRouter);
-
 
 // Error Handling
 app.all("/*splat", (req, res, next) => {
