@@ -35,5 +35,5 @@ You can seamlessly upload images for your listing or profile picture in png/jpg/
 - Mapbox
 
 ## Authors :-
-Stuti Gupta
-Satyam Rai
+- Stuti Gupta
+- Satyam Rai
