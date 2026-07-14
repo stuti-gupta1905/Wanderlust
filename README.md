@@ -34,5 +34,6 @@ You can seamlessly upload images for your listing or profile picture in png/jpg/
 - Cloudinary
 - Mapbox
 
-## Developed by :-
+## Authors :-
 Stuti Gupta
+Satyam Rai
