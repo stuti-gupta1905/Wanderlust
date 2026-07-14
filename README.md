@@ -33,3 +33,6 @@ You can seamlessly upload images for your listing or profile picture in png/jpg/
 - Passport.js
 - Cloudinary
 - Mapbox
+
+## Developed by :-
+Stuti Gupta
