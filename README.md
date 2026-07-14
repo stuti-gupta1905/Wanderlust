@@ -8,13 +8,15 @@ Compatible with several devices like desktop, phone, tablet, etc.
 
 ## Features
 - User authentication
+- Signuo/Login/Logout
 - Property listings
-- Booking system
+- Booking system with date validations
 - Reviews and ratings
 - Search functionality
 - Cloudinary image uploads
 - Mapbox integration
-- Pofile, MyBookings, GuesBookings pages
+- Pofile, MyBookings, GuestBookings pages
+- Listing and Review editing as well as deletion after user authorization
 - etc.
 
 ## Tech Stack
